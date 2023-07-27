@@ -46,7 +46,6 @@ namespace WeatherAPI
             {
                 url += "&locationName=" + comboBox1.Text;
             }
-            url += "&elementName=MinT";
 
             // 取得API回傳結果
             var result = await GetResponseFromUrl(url);
@@ -56,29 +55,60 @@ namespace WeatherAPI
             // 取得描述的標題
             JToken jsonDatasetDescription = getData["records"]["datasetDescription"];
             // 取得回傳結果的時間
-            JToken jsonTime = getData["records"]["location"][0]["weatherElement"][0]["time"];
+            JToken jsonItem = getData["records"]["location"];
 
             // 從檔案讀取現有的 JSON 資料
             List<HistoryItem> historyList = ReadJsonFile(FilePath);
 
+            //處理並判斷回傳的結果 並顯示在畫面上
+            string HandlerResult = string.Empty;
+            foreach (var item in jsonItem)
+            {
+                string location = Convert.ToString(item["locationName"]);
+                string weather = string.Empty;
+                string pop = string.Empty;
+                string temperatureMax = string.Empty;
+                string temperatureMin = string.Empty;
 
-            // 新增物件
+                foreach (var item2 in item["weatherElement"])
+                {
+                    string type = Convert.ToString(item2["elementName"]);
+
+                    if (type == "Wx")
+                    {
+                        weather = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                    }
+                    else if (type == "PoP")
+                    {
+                        pop = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                    }
+                    else if (type == "MinT")
+                    {
+                        temperatureMax = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                    }
+                    else if (type == "MaxT")
+                    {
+                        temperatureMin = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                    }
+                }
+
+                HandlerResult += $"區域: {location} 天氣: {weather} 降雨機率: {pop} 最低溫度: {temperatureMin} 最高溫度: {temperatureMax}" + Environment.NewLine;
+            }
+
+
+            // 將處理完的結果 取得編號 以及 區域名稱 並寫入Json
             int newId = GetNextId(historyList);
             historyList.Add(new HistoryItem
             {
                 Id = newId,
                 Question = comboBox1.Text + Convert.ToString(jsonDatasetDescription),
-                Result = Convert.ToString(jsonTime),
+                Result = Convert.ToString(HandlerResult),
             });
 
-            foreach(var item in jsonTime)
-            {
-                txt_result.Text += $"時間 : {Convert.ToString(item["startTime"])} - {Convert.ToString(item["endTime"])} 溫度為 { Convert.ToString(item["parameter"]["parameterName"]) + Convert.ToString(item["parameter"]["parameterUnit"]) + Environment.NewLine}";
-            }
+            txt_result.Text = HandlerResult;
 
             // 將更新後的 JSON 資料寫入檔案
             WriteJsonFile(FilePath, historyList);
-
         }
 
 

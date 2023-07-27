@@ -46,7 +46,7 @@
             // 
             // txt_result
             // 
-            txt_result.Font = new Font("Microsoft JhengHei UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            txt_result.Font = new Font("Microsoft JhengHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             txt_result.Location = new Point(22, 72);
             txt_result.Multiline = true;
             txt_result.Name = "txt_result";
