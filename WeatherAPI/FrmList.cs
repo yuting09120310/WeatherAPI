@@ -13,8 +13,10 @@ namespace WeatherAPI
 {
     public partial class FrmList : Form
     {
-
         public string FilePath = string.Empty;
+        
+        Dictionary<string, string> dic = new Dictionary<string, string>();
+
 
         public FrmList()
         {
@@ -32,26 +34,17 @@ namespace WeatherAPI
         {
             var list = ReadJsonFile(FilePath);
 
-            DataTable dt = new DataTable();
-            List<string> items = new List<string>(){ "編號","問題", "回答"};
-            foreach (var item in items)
+            foreach (HistoryItem item in list)
             {
-                dt.Columns.Add(item);
-            }
+                string key = item.Id + "." + item.Question;
 
-            foreach (var item in list)
-            {
-                dt.Rows.Add(item.Id, item.Question, item.Result);
-            }
+                lst_History.Items.Add(key);
 
-            dataGridView1.DataSource = dt;
+                dic.Add(key, item.Result);
+            }
         }
 
-
-
-
-
-
+        
         // 從檔案讀取現有的 JSON 資料
         private List<HistoryItem> ReadJsonFile(string filePath)
         {
@@ -64,6 +57,13 @@ namespace WeatherAPI
             }
 
             return historyList;
+        }
+
+
+        private void lst_History_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string item = lst_History.SelectedItem.ToString();
+            txt_Result.Text = dic[item].ToString();
         }
     }
 }

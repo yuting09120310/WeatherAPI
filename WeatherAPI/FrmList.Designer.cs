@@ -28,37 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            lst_History = new ListBox();
+            txt_Result = new TextBox();
             SuspendLayout();
             // 
-            // dataGridView1
+            // lst_History
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(1009, 401);
-            dataGridView1.TabIndex = 0;
+            lst_History.FormattingEnabled = true;
+            lst_History.ItemHeight = 15;
+            lst_History.Location = new Point(17, 16);
+            lst_History.Name = "lst_History";
+            lst_History.Size = new Size(185, 394);
+            lst_History.TabIndex = 0;
+            lst_History.SelectedIndexChanged += lst_History_SelectedIndexChanged;
+            // 
+            // txt_Result
+            // 
+            txt_Result.Location = new Point(227, 16);
+            txt_Result.Multiline = true;
+            txt_Result.Name = "txt_Result";
+            txt_Result.Size = new Size(466, 394);
+            txt_Result.TabIndex = 1;
             // 
             // FrmList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1033, 425);
-            Controls.Add(dataGridView1);
+            ClientSize = new Size(705, 425);
+            Controls.Add(txt_Result);
+            Controls.Add(lst_History);
             Name = "FrmList";
             Text = "FrmList";
             Load += FrmList_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private ListBox lst_History;
+        private TextBox txt_Result;
     }
 }
