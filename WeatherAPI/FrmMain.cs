@@ -8,7 +8,7 @@ namespace WeatherAPI
     public partial class FrmMain : Form
     {
         string FilePath = string.Empty;
-        List<string> City = new List<string>() { "宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "屏東縣" };
+        List<string> City = new List<string>() { "全部", "宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "屏東縣" };
 
 
         public FrmMain()
@@ -42,7 +42,7 @@ namespace WeatherAPI
         private async void btnSubmit_Click(object sender, EventArgs e)
         {
             string url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-E5AE9AD2-A2D9-4152-8EF3-4195DF68C9EB";
-            if (cmb_Area.Text.Length > 0)
+            if (cmb_Area.Text.Length > 0 && !cmb_Area.Text.Equals("全部"))
             {
                 url += "&locationName=" + cmb_Area.Text;
             }
