@@ -32,7 +32,7 @@ namespace WeatherAPI
             if (myProcess.Length > 1) { Environment.Exit(0); }
 
 
-            comboBox1.DataSource = City;
+            cmb_Area.DataSource = City;
 
             // 取得檔案路徑
             FilePath = checkFile();
@@ -42,9 +42,9 @@ namespace WeatherAPI
         private async void btnSubmit_Click(object sender, EventArgs e)
         {
             string url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-E5AE9AD2-A2D9-4152-8EF3-4195DF68C9EB";
-            if (comboBox1.Text.Length > 0)
+            if (cmb_Area.Text.Length > 0)
             {
-                url += "&locationName=" + comboBox1.Text;
+                url += "&locationName=" + cmb_Area.Text;
             }
 
             // 取得API回傳結果
@@ -55,7 +55,7 @@ namespace WeatherAPI
             // 取得描述的標題
             JToken jsonDatasetDescription = getData["records"]["datasetDescription"];
             // 取得回傳結果的時間
-            JToken jsonItem = getData["records"]["location"];
+            JToken jsonItem = getData["records"]!["location"]!;
 
             // 從檔案讀取現有的 JSON 資料
             List<HistoryItem> historyList = ReadJsonFile(FilePath);
@@ -101,7 +101,7 @@ namespace WeatherAPI
             historyList.Add(new HistoryItem
             {
                 Id = newId,
-                Question = comboBox1.Text + Convert.ToString(jsonDatasetDescription),
+                Question = cmb_Area.Text + Convert.ToString(jsonDatasetDescription),
                 Result = Convert.ToString(HandlerResult),
             });
 
@@ -208,7 +208,7 @@ namespace WeatherAPI
 
         private void btn_History_Click(object sender, EventArgs e)
         {
-            FrmList frmList = new FrmList(FilePath);
+            FrmList frmList = new FrmList();
             frmList.ShowDialog();
         }
     }

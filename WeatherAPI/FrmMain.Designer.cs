@@ -31,7 +31,7 @@
             btn_Send = new Button();
             txt_result = new TextBox();
             btn_History = new Button();
-            comboBox1 = new ComboBox();
+            cmb_Area = new ComboBox();
             SuspendLayout();
             // 
             // btn_Send
@@ -63,20 +63,21 @@
             btn_History.UseVisualStyleBackColor = true;
             btn_History.Click += btn_History_Click;
             // 
-            // comboBox1
+            // cmb_Area
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(22, 30);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(675, 23);
-            comboBox1.TabIndex = 4;
+            cmb_Area.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_Area.FormattingEnabled = true;
+            cmb_Area.Location = new Point(22, 30);
+            cmb_Area.Name = "cmb_Area";
+            cmb_Area.Size = new Size(675, 23);
+            cmb_Area.TabIndex = 4;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 497);
-            Controls.Add(comboBox1);
+            Controls.Add(cmb_Area);
             Controls.Add(btn_History);
             Controls.Add(txt_result);
             Controls.Add(btn_Send);
@@ -91,6 +92,6 @@
         private Button btn_Send;
         private TextBox txt_result;
         private Button btn_History;
-        private ComboBox comboBox1;
+        private ComboBox cmb_Area;
     }
 }
