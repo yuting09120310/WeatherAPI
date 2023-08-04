@@ -31,7 +31,8 @@
             btn_Send = new Button();
             txt_result = new TextBox();
             btn_History = new Button();
-            cmb_Area = new ComboBox();
+            txt_Question = new TextBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // btn_Send
@@ -63,21 +64,29 @@
             btn_History.UseVisualStyleBackColor = true;
             btn_History.Click += btn_History_Click;
             // 
-            // cmb_Area
+            // txt_Question
             // 
-            cmb_Area.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmb_Area.FormattingEnabled = true;
-            cmb_Area.Location = new Point(22, 30);
-            cmb_Area.Name = "cmb_Area";
-            cmb_Area.Size = new Size(675, 23);
-            cmb_Area.TabIndex = 4;
+            txt_Question.Location = new Point(95, 30);
+            txt_Question.Name = "txt_Question";
+            txt_Question.Size = new Size(602, 23);
+            txt_Question.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(22, 34);
+            label1.Name = "label1";
+            label1.Size = new Size(64, 15);
+            label1.TabIndex = 6;
+            label1.Text = "輸入縣市 : ";
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 497);
-            Controls.Add(cmb_Area);
+            Controls.Add(label1);
+            Controls.Add(txt_Question);
             Controls.Add(btn_History);
             Controls.Add(txt_result);
             Controls.Add(btn_Send);
@@ -92,6 +101,7 @@
         private Button btn_Send;
         private TextBox txt_result;
         private Button btn_History;
-        private ComboBox cmb_Area;
+        private TextBox txt_Question;
+        private Label label1;
     }
 }

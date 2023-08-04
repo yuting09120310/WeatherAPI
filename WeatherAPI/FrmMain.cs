@@ -32,8 +32,6 @@ namespace WeatherAPI
             if (myProcess.Length > 1) { Environment.Exit(0); }
 
 
-            cmb_Area.DataSource = City;
-
             // 取得檔案路徑
             FilePath = checkFile();
         }
@@ -42,10 +40,6 @@ namespace WeatherAPI
         private async void btnSubmit_Click(object sender, EventArgs e)
         {
             string url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-E5AE9AD2-A2D9-4152-8EF3-4195DF68C9EB";
-            if (cmb_Area.Text.Length > 0 && !cmb_Area.Text.Equals("全部"))
-            {
-                url += "&locationName=" + cmb_Area.Text;
-            }
 
             // 取得API回傳結果
             var result = await GetResponseFromUrl(url);
@@ -62,37 +56,44 @@ namespace WeatherAPI
 
             //處理並判斷回傳的結果 並顯示在畫面上
             string HandlerResult = string.Empty;
+
             foreach (var item in jsonItem)
             {
+                // 取得地區名稱
                 string location = Convert.ToString(item["locationName"]);
-                string weather = string.Empty;
-                string pop = string.Empty;
-                string temperatureMax = string.Empty;
-                string temperatureMin = string.Empty;
 
-                foreach (var item2 in item["weatherElement"])
+                // 檢查是否有包含在條件
+                if (location.Contains(txt_Question.Text))
                 {
-                    string type = Convert.ToString(item2["elementName"]);
+                    string weather = string.Empty;
+                    string pop = string.Empty;
+                    string temperatureMax = string.Empty;
+                    string temperatureMin = string.Empty;
 
-                    if (type == "Wx")
+                    foreach (var item2 in item["weatherElement"])
                     {
-                        weather = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                        string type = Convert.ToString(item2["elementName"]);
+
+                        if (type == "Wx")
+                        {
+                            weather = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                        }
+                        else if (type == "PoP")
+                        {
+                            pop = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                        }
+                        else if (type == "MinT")
+                        {
+                            temperatureMax = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                        }
+                        else if (type == "MaxT")
+                        {
+                            temperatureMin = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                        }
                     }
-                    else if (type == "PoP")
-                    {
-                        pop = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
-                    }
-                    else if (type == "MinT")
-                    {
-                        temperatureMax = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
-                    }
-                    else if (type == "MaxT")
-                    {
-                        temperatureMin = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
-                    }
+
+                    HandlerResult += $"區域: {location} 天氣: {weather} , 降雨機率: {pop}% , 溫度: {temperatureMin}°C - {temperatureMax}°C " + Environment.NewLine;
                 }
-
-                HandlerResult += $"區域: {location} 天氣: {weather} 降雨機率: {pop} 最低溫度: {temperatureMin} 最高溫度: {temperatureMax}" + Environment.NewLine;
             }
 
 
@@ -101,7 +102,7 @@ namespace WeatherAPI
             historyList.Add(new HistoryItem
             {
                 Id = newId,
-                Question = cmb_Area.Text + Convert.ToString(jsonDatasetDescription),
+                Question = txt_Question.Text + Convert.ToString(jsonDatasetDescription),
                 Result = Convert.ToString(HandlerResult),
             });
 
@@ -211,5 +212,6 @@ namespace WeatherAPI
             FrmList frmList = new FrmList();
             frmList.ShowDialog();
         }
+
     }
 }
