@@ -44,10 +44,10 @@ namespace WeatherAPI
             // 取得API回傳結果
             var result = await GetResponseFromUrl(url);
             // 將取回的結果轉成Json Object
-            JObject getData = JsonConvert.DeserializeObject<JObject>(result);
+            JObject getData = JsonConvert.DeserializeObject<JObject>(result)!;
 
             // 取得描述的標題
-            JToken jsonDatasetDescription = getData["records"]["datasetDescription"];
+            JToken jsonDatasetDescription = getData["records"]!["datasetDescription"]!;
             // 取得回傳結果的時間
             JToken jsonItem = getData["records"]!["location"]!;
 
@@ -60,7 +60,7 @@ namespace WeatherAPI
             foreach (var item in jsonItem)
             {
                 // 取得地區名稱
-                string location = Convert.ToString(item["locationName"]);
+                string location = Convert.ToString(item["locationName"])!;
 
                 // 檢查是否有包含在條件
                 if (location.Contains(txt_Question.Text))
@@ -70,25 +70,25 @@ namespace WeatherAPI
                     string temperatureMax = string.Empty;
                     string temperatureMin = string.Empty;
 
-                    foreach (var item2 in item["weatherElement"])
+                    foreach (var item2 in item["weatherElement"]!)
                     {
-                        string type = Convert.ToString(item2["elementName"]);
+                        string type = Convert.ToString(item2["elementName"])!;
 
                         if (type == "Wx")
                         {
-                            weather = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                            weather = Convert.ToString(item2["time"]![0]!["parameter"]!["parameterName"]!)!;
                         }
                         else if (type == "PoP")
                         {
-                            pop = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                            pop = Convert.ToString(item2["time"]![0]!["parameter"]!["parameterName"]!)!;
                         }
                         else if (type == "MinT")
                         {
-                            temperatureMax = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                            temperatureMax = Convert.ToString(item2["time"]![0]!["parameter"]!["parameterName"]!)!;
                         }
                         else if (type == "MaxT")
                         {
-                            temperatureMin = Convert.ToString(item2["time"][0]["parameter"]["parameterName"]);
+                            temperatureMin = Convert.ToString(item2["time"]![0]!["parameter"]!["parameterName"]!)!;
                         }
                     }
 
